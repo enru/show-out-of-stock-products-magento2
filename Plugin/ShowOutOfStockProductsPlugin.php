@@ -11,10 +11,13 @@ class ShowOutOfStockProductsPlugin {
      */
     public function beforeGetAllowProducts(\Magento\ConfigurableProduct\Block\Product\View\Type\Configurable $subject)
     {
+        $logger = \Magento\Framework\App\ObjectManager::getInstance()->get(\Psr\Log\LoggerInterface::class);
+
         if (!$subject->hasAllowProducts()) {
-            $allProducts = $subject->getProduct()->getTypeInstance()->getUsedProducts($subject->getProduct(), null);
+            $allProducts = $this->loadAllProducts($subject->getProduct());
             $products = [];
             foreach ($allProducts as $product) {
+                $logger->info($product->getId());
                 if ($product->getStatus() != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED) {
                     $products[] = $product;
                 }
@@ -23,6 +26,18 @@ class ShowOutOfStockProductsPlugin {
         }
 
         return [];
+    }
+
+    /**
+     * from Magento\ConfigurableProduct\Model\Product\Type\Configurable::getConfiguredUsedProductCollection
+     */
+    private function loadAllProducts($product)
+    {
+        $collection = $product->getTypeInstance()->getUsedProductCollection($product);
+        $collection->setFlag('has_stock_status_filter', true);
+
+        $allProducts = array_values($collection->getItems());
+        return $allProducts;
     }
 
 }
