@@ -16,6 +16,9 @@
 
     <type name="Magento\ConfigurableProduct\Model\ResourceModel\Attribute\OptionSelectBuilderInterface">
         <plugin name="Magento_ConfigurableProduct_Plugin_Model_ResourceModel_Attribute_InStockOptionSelectBuilder" disabled="true" />
+    <!--
         <plugin name="ShowAllProductSwatches" type="Myweb\ShowOutOfStockProducts\Plugin\InStockOptionSelectorPlugin"/>
+    -->
     </type>
+
 </config>
