@@ -23,7 +23,7 @@ class InStockOptionSelectorPlugin extends \Magento\ConfigurableProduct\Plugin\Mo
         Status $stockStatusResource,
         StockConfigurationInterface $stockConfiguration
     ) {
-        parent::__construct($stockStatusResource);
+        parent::__construct($stockStatusResource, $stockConfiguration);
         $this->stockConfiguration = $stockConfiguration;
     }
     /**
