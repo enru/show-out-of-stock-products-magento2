@@ -11,13 +11,10 @@ class ShowOutOfStockProductsPlugin {
      */
     public function beforeGetAllowProducts(\Magento\ConfigurableProduct\Block\Product\View\Type\Configurable $subject)
     {
-        $logger = \Magento\Framework\App\ObjectManager::getInstance()->get(\Psr\Log\LoggerInterface::class);
-
         if (!$subject->hasAllowProducts()) {
             $allProducts = $this->loadAllProducts($subject->getProduct());
             $products = [];
             foreach ($allProducts as $product) {
-                $logger->info($product->getId());
                 if ($product->getStatus() != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED) {
                     $products[] = $product;
                 }
